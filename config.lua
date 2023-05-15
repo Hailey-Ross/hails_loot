@@ -1,6 +1,6 @@
 Config = {}
 
-    Config.debug = true           -- True enables debug output | False for opposite
+    Config.debug = false           -- True enables debug output | False for opposite
 
     Config.discordToggle = false  -- True enables Discord Webhooks | False to Disable
     Config.discordWebhook = ""

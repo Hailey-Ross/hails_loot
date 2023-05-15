@@ -36,9 +36,10 @@ Citizen.CreateThread(function()
 									local lootedcheck = Citizen.InvokeNative(0x8DE41E9902E85756, entityHit)
 									if lootedcheck then
 										SeedMaths = KeyHeldTime * LootModifier
-										SeedSysTime = GetSystemTime() / MathLow + SeedMaths
-										LootSeed = GetGameTimer() + SeedSysTime * MathHigh - SeedMaths
-										if debug == true then print("Seed Generated: " .. LootSeed .. " | Seed Modifiers:  Var-1 [" .. SeedMaths .. "], Var-2 [" .. SeedSysTime .. "], Var-3 [" .. MathHigh .. "]") end
+										fortyfours = 0.414444144 * SeedMaths
+										SeedSysTime = GetSystemTime() * fortyfours
+										LootSeed = GetGameTimer() + SeedSysTime * LootModifier - SeedMaths
+										if debug == true then print("Seed Generated: " .. LootSeed .. " | Seed Modifiers:  Var-1 [" .. SeedMaths .. "], Var-2 [" .. SeedSysTime .. "], Var-3 [" .. fortyfours .. "]") end
 										math.randomseed(LootSeed)
 										local loot = math.random(MathLow, MathHigh)
 										local pennies = math.random(0,9)

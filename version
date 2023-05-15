@@ -2,6 +2,6 @@
 - Initial Release Version
 - General Code Cleanup & Useability improvements
 - config.lua added
-- Added math.RandomSeed functionality
+- Added Seeding for math.random functionality
 - Added debug output support
 - Added Penny support of values 0.01 to 0.09 for more realistic change handling

@@ -1,5 +1,5 @@
 # hails_loot
-Formerly [redemrp_loot](https://github.com/CryptoGenics/redemrp_loot) by [CryptoGenics](https://github.com/CryptoGenics)
+Formerly vorp_loot_mod and before that known as [redemrp_loot](https://github.com/CryptoGenics/redemrp_loot) by [CryptoGenics](https://github.com/CryptoGenics)
 
 ## TODO
 - Coming Soon

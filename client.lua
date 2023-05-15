@@ -33,7 +33,7 @@ Citizen.CreateThread(function()
 									looting = false
 									Wait(500)
 									local lootedcheck = Citizen.InvokeNative(0x8DE41E9902E85756, entityHit)
-									math.randomseed(GetGameTimer() * MathHigh + KeyHeldTime)
+									math.randomseed(GetGameTimer() + KeyHeldTime * MathHigh)
 									if lootedcheck then
 										local loot = math.random(MathLow, MathHigh)
 										local lootpay = loot /LootModifier

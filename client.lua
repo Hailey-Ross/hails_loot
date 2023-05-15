@@ -43,27 +43,27 @@ Citizen.CreateThread(function()
 										math.randomseed(LootSeed)
 										local loot = math.random(MathLow,MathHigh)
 										local pennies = math.random(0,9)
-										if pennies ~= 0 then
-											pennyConv = pennies / 100
-										else
+										if pennies == 0 then
 											pennyConv = 0.00
-										end
-										if loot ~= 0 then
-											lootmath = loot / LootModifier
 										else
+											pennyConv = pennies / 100
+										end
+										if loot == 0 then
 											lootmath = 0.00
+										else
+											lootmath = loot / LootModifier
 										end
 										local lootpay = lootmath + pennyConv
 										local loot_xp = math.random(10,1000)
 										local loot_xp_pay= loot_xp / 100
-										if lootpay > 0.0 then
+										if lootpay == 0 then
+											if debug == true then print("Player found nothing in Pedestrians pockets. Lootpay was " .. lootpay) end
+											TriggerEvent("vorp:TipBottom", 'You search their pockets but find nothing of value..', 3000)
+										else
 											TriggerServerEvent('vorp_loot', lootpay, loot_xp_pay)
 											Wait(400)
 											if debug == true then print("Player steals $" .. lootpay .. " from a local Ped") end
 											TriggerEvent("vorp:TipBottom", 'You steal $' .. lootpay, 3000)
-										else
-											if debug == true then print("Player found nothing in Pedestrians pockets. Lootpay was " .. lootpay) end
-											TriggerEvent("vorp:TipBottom", 'You search their pockets but find nothing of value..', 3000)
 										end
 									else
 										looting = false

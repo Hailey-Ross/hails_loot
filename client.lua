@@ -30,7 +30,7 @@ Citizen.CreateThread(function()
 							if IsControlJustReleased(0,1101824977) then
 								KeyHeldTime = GetGameTimer() - PressTime
 								PressTime = 0
-								if KeyHeldTime > 12 then
+								if KeyHeldTime > 15 then
 									looting = false
 									Wait(500)
 									local lootedcheck = Citizen.InvokeNative(0x8DE41E9902E85756, entityHit)

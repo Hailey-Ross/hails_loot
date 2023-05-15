@@ -57,11 +57,10 @@ Citizen.CreateThread(function()
 										local loot_xp = math.random(10,1000)
 										local loot_xp_pay= loot_xp / 100
 										if lootpay == 0 then
-											if debug == true then print("Player found nothing in Pedestrians pockets. Lootpay was " .. lootpay) end
+											if debug == true then print("Player found nothing in Pedestrians pockets.") end
 											TriggerEvent("vorp:TipBottom", 'You search their pockets but find nothing of value..', 3000)
 										elseif lootpay < 0 then
-											if debug == true then print("ERROR LOOTPAY WAS NEGATIVE NUMBER - REPORT THIS ERROR") end
-											if debug == true then print("Player found nothing in Pedestrians pockets. Lootpay was " .. lootpay) end
+											print("ERROR LOOTPAY WAS NEGATIVE NUMBER - REPORT THIS ERROR Lootpay: " .. lootpay)
 											TriggerEvent("vorp:TipBottom", 'You search their pockets but find nothing of value..', 3000)
 										else
 											TriggerServerEvent('vorp_loot', lootpay, loot_xp_pay)

@@ -59,6 +59,10 @@ Citizen.CreateThread(function()
 										if lootpay == 0 then
 											if debug == true then print("Player found nothing in Pedestrians pockets. Lootpay was " .. lootpay) end
 											TriggerEvent("vorp:TipBottom", 'You search their pockets but find nothing of value..', 3000)
+										elseif lootpay < 0 then
+											if debug == true then print("ERROR LOOTPAY WAS NEGATIVE NUMBER - REPORT THIS ERROR") end
+											if debug == true then print("Player found nothing in Pedestrians pockets. Lootpay was " .. lootpay) end
+											TriggerEvent("vorp:TipBottom", 'You search their pockets but find nothing of value..', 3000)
 										else
 											TriggerServerEvent('vorp_loot', lootpay, loot_xp_pay)
 											Wait(400)

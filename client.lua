@@ -33,7 +33,9 @@ Citizen.CreateThread(function()
 									looting = false
 									Wait(500)
 									local lootedcheck = Citizen.InvokeNative(0x8DE41E9902E85756, entityHit)
-									math.randomseed(GetGameTimer() + KeyHeldTime * MathHigh)
+									local SeedMaths = KeyHeldTime * LootModifier
+									local SeedSysTime = GetSystemTime() / MathLow * SeedMaths
+									local LootSeed = math.randomseed(GetGameTimer() + SeedSysTime * MathHigh - SeedMaths)
 									if lootedcheck then
 										local loot = math.random(MathLow, MathHigh)
 										local lootpay = loot /LootModifier
@@ -41,6 +43,7 @@ Citizen.CreateThread(function()
 										local loot_xp_pay= loot_xp / 100
 										TriggerServerEvent('vorp_loot', lootpay, loot_xp_pay)
 										Wait(1000)
+										if Config.debug then print("Seed Gen: " .. LootSeed .. " | Seed Modifiers:  Var-1 " .. SeedMaths .. " Var-2 " .. SeedSysTime .. " Var-3 " .. MathHigh) end
 										TriggerEvent("vorp:TipBottom", 'You steal $' .. lootpay, 3000)
 									else
 										looting = false

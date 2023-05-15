@@ -41,17 +41,30 @@ Citizen.CreateThread(function()
 										LootSeed = GetGameTimer() + SeedSysTime * LootModifier - SeedMaths
 										if debug == true then print("Seed Generated: " .. LootSeed .. " | Seed Modifiers:  Var-1 [" .. SeedMaths .. "], Var-2 [" .. SeedSysTime .. "], Var-3 [" .. fortyfours .. "]") end
 										math.randomseed(LootSeed)
-										local loot = math.random(MathLow, MathHigh)
+										local loot = math.random(MathLow,MathHigh)
 										local pennies = math.random(0,9)
-										local pennyConv = pennies / 100
-										local lootmath = loot /LootModifier
+										if pennies ~= 0 then
+											pennyConv = pennies / 100
+										else
+											pennyConv = 0.00
+										end
+										if loot ~= 0 then
+											lootmath = loot / LootModifier
+										else
+											lootmath = 0.00
+										end
 										local lootpay = lootmath + pennyConv
 										local loot_xp = math.random(10,1000)
 										local loot_xp_pay= loot_xp / 100
-										TriggerServerEvent('vorp_loot', lootpay, loot_xp_pay)
-										Wait(400)
-										if debug == true then print("Player steals $" .. lootpay .. " from a local Ped") end
-										TriggerEvent("vorp:TipBottom", 'You steal $' .. lootpay, 3000)
+										if lootpay > 0.0 then
+											TriggerServerEvent('vorp_loot', lootpay, loot_xp_pay)
+											Wait(400)
+											if debug == true then print("Player steals $" .. lootpay .. " from a local Ped") end
+											TriggerEvent("vorp:TipBottom", 'You steal $' .. lootpay, 3000)
+										else
+											if debug == true then print("Player found nothing in Pedestrians pockets. Lootpay was " .. lootpay) end
+											TriggerEvent("vorp:TipBottom", 'You search their pockets but find nothing of value..', 3000)
+										end
 									else
 										looting = false
 										LootSeed = 0

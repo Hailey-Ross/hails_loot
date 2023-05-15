@@ -4,7 +4,7 @@ end)
 
 VorpInv = exports.vorp_inventory:vorp_inventoryApi()
 
-local webook = Config.discordWebhook
+local discordToggle = config.discordToggle
 
 RegisterServerEvent('vorp_loot')
 AddEventHandler('vorp_loot', function(price,xp)
@@ -15,7 +15,7 @@ AddEventHandler('vorp_loot', function(price,xp)
 	local steamhex = GetPlayerIdentifier(_source)
     local text = "looted local for ".._price
 	local message = "Player ID: "..GetPlayerName(_source).."\nCharacter: "..playername.."\nSteam: "..steamhex.."\nIP: ".." Msg: "..text
-	--Discord( "npc loot", message, 16711680)
+	if discordToggle then Discord("npc lootwatch", message, 16711680) end
     Character.addCurrency(0, _price)
 
 end)
@@ -28,6 +28,7 @@ end)
 
 function Discord( title, description, color)
 	--local webhook = "https://discord.com/api/webhooks/942149281161285673/kdex3NiFjjKaZox_sqrLnARquB5ThKmIT6S583YSpd5EuJFVagGbcY4KV54tKNugd_me"
+	local webook = config.discordWebhook
 	local logs = {
 		{
 			["color"] = color,

@@ -2,6 +2,7 @@ local looting = false
 local MathLow = Config.LootingLow
 local MathHigh = Config.LootingHigh
 local LootModifier = Config.LootModifier
+local debug = Config.debug
 
 Citizen.CreateThread(function()
     while true do
@@ -29,27 +30,39 @@ Citizen.CreateThread(function()
 							if IsControlJustReleased(0,1101824977) then
 								KeyHeldTime = GetGameTimer() - PressTime
 								PressTime = 0
-								if KeyHeldTime > 15 then
+								if KeyHeldTime > 12 then
 									looting = false
 									Wait(500)
 									local lootedcheck = Citizen.InvokeNative(0x8DE41E9902E85756, entityHit)
-									local SeedMaths = KeyHeldTime * LootModifier
-									local SeedSysTime = GetSystemTime() / MathLow + SeedMaths
-									math.randomseed(GetGameTimer() + SeedSysTime * MathHigh - SeedMaths)
 									if lootedcheck then
+										SeedMaths = KeyHeldTime * LootModifier
+										SeedSysTime = GetSystemTime() / MathLow + SeedMaths
+										LootSeed = GetGameTimer() + SeedSysTime * MathHigh - SeedMaths
+										if debug == true then print("Seed Generated: " .. LootSeed .. " | Seed Modifiers:  Var-1 [" .. SeedMaths .. "], Var-2 [" .. SeedSysTime .. "], Var-3 [" .. MathHigh .. "]") end
+										math.randomseed(LootSeed)
 										local loot = math.random(MathLow, MathHigh)
-										local lootpay = loot /LootModifier
+										local pennies = math.random(0,9)
+										local pennyConv = pennies / 100
+										local lootmath = loot /LootModifier
+										local lootpay = lootmath + pennyConv
 										local loot_xp = math.random(10,1000)
 										local loot_xp_pay= loot_xp / 100
 										TriggerServerEvent('vorp_loot', lootpay, loot_xp_pay)
-										Wait(1000)
-										if Config.debug then print("Seed Gen: " .. LootSeed .. " | Seed Modifiers:  Var-1 " .. SeedMaths .. " Var-2 " .. SeedSysTime .. " Var-3 " .. MathHigh) end
+										Wait(400)
+										if debug == true then print("Player steals $" .. lootpay .. " from a local Ped") end
 										TriggerEvent("vorp:TipBottom", 'You steal $' .. lootpay, 3000)
 									else
 										looting = false
+										LootSeed = 0
+										SeedMaths = 0
+										SeedSysTime = 0
+										if debug == true then print("Failed Prompt OR Ped already looted") end
 									end
 								else
 									looting = false
+									LootSeed = 0
+									SeedMaths = 0
+									SeedSysTime = 0
 								end
 							end
 						end

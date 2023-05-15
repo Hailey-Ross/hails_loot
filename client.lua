@@ -1,4 +1,7 @@
 local looting = false
+local MathLow = Config.LootingLow
+local MathHigh = Config.LootingHigh
+local LootModifier = Config.LootModifier
 
 Citizen.CreateThread(function()
     while true do
@@ -26,16 +29,16 @@ Citizen.CreateThread(function()
 							if IsControlJustReleased(0,1101824977) then
 								KeyHeldTime = GetGameTimer() - PressTime
 								PressTime = 0
-								if KeyHeldTime > 25 then
+								if KeyHeldTime > 15 then
 									looting = false
 									Wait(500)
 									local lootedcheck = Citizen.InvokeNative(0x8DE41E9902E85756, entityHit)
 									if lootedcheck then
-										local loot = math.random(1, 4)
-										local lootpay = loot /10
-										local loot_xp = math.random (10,1000)
+										local loot = math.random(MathLow, MathHigh)
+										local lootpay = loot /LootModifier
+										local loot_xp = math.random(10,1000)
 										local loot_xp_pay= loot_xp / 100
-										TriggerServerEvent('vorp_loot', lootpay,loot_xp_pay)
+										TriggerServerEvent('vorp_loot', lootpay, loot_xp_pay)
 										Wait(1000)
 										TriggerEvent("vorp:TipBottom", 'You steal $' .. lootpay, 3000)
 									else

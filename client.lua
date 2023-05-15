@@ -28,15 +28,15 @@ Citizen.CreateThread(function()
 							Wait(0)
 							if IsControlJustReleased(0,1101824977) then
 								KeyHeldTime = GetGameTimer() - PressTime
-								local SeedMaths = KeyHeldTime * LootModifier
-								local SeedSysTime = GetSystemTime() / MathLow * SeedMaths
-								local LootSeed = math.randomseed(GetGameTimer() + SeedSysTime * MathHigh - SeedMaths)
 								PressTime = 0
 								if KeyHeldTime > 15 then
 									looting = false
 									Wait(500)
+									local lootedcheck = Citizen.InvokeNative(0x8DE41E9902E85756, entityHit)
+									local SeedMaths = KeyHeldTime * LootModifier
+									local SeedSysTime = GetSystemTime() / MathLow + SeedMaths
+									math.randomseed(GetGameTimer() + SeedSysTime * MathHigh - SeedMaths)
 									if lootedcheck then
-										local lootedcheck = Citizen.InvokeNative(0x8DE41E9902E85756, entityHit)
 										local loot = math.random(MathLow, MathHigh)
 										local lootpay = loot /LootModifier
 										local loot_xp = math.random(10,1000)

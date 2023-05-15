@@ -1,7 +1,7 @@
 local looting = false
-local MathLow = config.LootingLow
-local MathHigh = config.LootingHigh
-local LootModifier = config.LootModifier
+local MathLow = Config.LootingLow
+local MathHigh = Config.LootingHigh
+local LootModifier = Config.LootModifier
 
 Citizen.CreateThread(function()
     while true do

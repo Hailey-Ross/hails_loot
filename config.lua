@@ -1,9 +1,9 @@
 Config = {}
 
-    config.discordToggle = false -- True enables Discord Webhooks | False to Disable
-    config.discordWebhook = ""
+    Config.discordToggle = false -- True enables Discord Webhooks | False to Disable
+    Config.discordWebhook = ""
 
 
-    config.LootingLow = 2
-    config.LootingHigh = 6
-    config.LootModifier = 10
+    Config.LootingLow = 2
+    Config.LootingHigh = 6
+    Config.LootModifier = 10

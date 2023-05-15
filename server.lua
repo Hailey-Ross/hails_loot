@@ -4,7 +4,7 @@ end)
 
 VorpInv = exports.vorp_inventory:vorp_inventoryApi()
 
-local discordToggle = config.discordToggle
+local discordToggle = Config.discordToggle
 
 RegisterServerEvent('vorp_loot')
 AddEventHandler('vorp_loot', function(price,xp)
@@ -28,7 +28,7 @@ end)
 
 function Discord( title, description, color)
 	--local webhook = "https://discord.com/api/webhooks/942149281161285673/kdex3NiFjjKaZox_sqrLnARquB5ThKmIT6S583YSpd5EuJFVagGbcY4KV54tKNugd_me"
-	local webook = config.discordWebhook
+	local webook = Config.discordWebhook
 	local logs = {
 		{
 			["color"] = color,

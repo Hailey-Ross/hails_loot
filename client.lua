@@ -61,12 +61,12 @@ Citizen.CreateThread(function()
 											TriggerEvent("vorp:TipBottom", 'You search their pockets but find nothing of value..', 3000)
 										elseif lootpay < 0 then
 											print("ERROR LOOTPAY WAS NEGATIVE NUMBER - REPORT THIS ERROR TO DEV | Lootpay: " .. lootpay)
-											TriggerEvent("vorp:TipBottom", 'You search their pockets but find nothing of value..', 3000)
+											TriggerEvent("vorp:TipBottom", 'You attempt to search their pockets but find they have been sewn shut', 3000)
 										else
 											TriggerServerEvent('vorp_loot', lootpay, loot_xp_pay)
-											Wait(400)
 											if debug == true then print("Player steals $" .. lootpay .. " from a local Ped") end
 											TriggerEvent("vorp:TipBottom", 'You steal $' .. lootpay, 3000)
+											Wait(400)
 										end
 									else
 										looting = false
@@ -77,9 +77,9 @@ Citizen.CreateThread(function()
 									end
 								else
 									looting = false
-									LootSeed = 0
-									SeedMaths = 0
-									SeedSysTime = 0
+									--LootSeed = 0
+									--SeedMaths = 0
+									--SeedSysTime = 0
 								end
 							end
 						end

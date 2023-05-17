@@ -2,7 +2,8 @@
 Formerly vorp_loot_mod and prior to that, known as [redemrp_loot](https://github.com/CryptoGenics/redemrp_loot) by [CryptoGenics](https://github.com/CryptoGenics)
 
 ## TODO
-- Coming Soon
+- Minor Rewrite moving all secure functions to server.lua
+- Add abiltiy to choose peds and set loottables for each?
 
 ## Dependencies
 - [Vorp-Core](https://github.com/VORPCORE/vorp-core-lua)

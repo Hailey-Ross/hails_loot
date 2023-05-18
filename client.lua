@@ -4,6 +4,7 @@ local MathHigh = Config.LootingHigh
 local LootModifier = 10
 local debug = Config.debug
 local thiefchance = Config.PickpocketChance
+local thievingFailure = Config.thiefFailtext
 
 Citizen.CreateThread(function()
     while true do
@@ -50,7 +51,7 @@ Citizen.CreateThread(function()
 											TriggerServerEvent('vorp_loot', thieving, loot_xp_pay)
 										else
 											if debug == true then print("[Thieving Check]\n Failed with Result: " .. thieving) end
-											TriggerEvent("vorp:TipBottom", 'You cannot find anything in their pockets..', 3000)
+											TriggerEvent("vorp:TipBottom", thievingFailure, 3000)
 											Wait(400)
 										end
 									else

@@ -30,7 +30,7 @@ AddEventHandler('vorp_loot', function(price,xp)
 	local gameTimerSeed = GetGameTimer()
 	local preSeeding = playerCamRot.x * gameTimerSeed * fortyfours
 	local RandomSeed = preSeeding * specialSauce
-	if debug == true then print("[LootCheck]\n" .. playername .. "\n Seed Generated: " .. RandomSeed .. "\n[Modifiers applied]\n Ping: " .. playerPingSeed .. "\n Special Mod: " .. specialSauce .. "\n Special Mod Deux: " .. fortyfours .. "\n Camera Rotation Z: " .. playerCamRot.z .. "\n Camera Rotation X: " .. playerCamRot.x .. "\n GameTimer: " .. gameTimerSeed .. " ") end
+	if debug == true then print("[LootCheck]\n Seed Generated: " .. RandomSeed .. "\n[Modifiers applied]\n Ping: " .. playerPingSeed .. "\n Special Mod: " .. specialSauce .. "\n Special Mod Deux: " .. fortyfours .. "\n Camera Rotation Z: " .. playerCamRot.z .. "\n Camera Rotation X: " .. playerCamRot.x .. "\n GameTimer: " .. gameTimerSeed .. " ") end
 	math.randomseed(RandomSeed)
 	local loot = math.random(MathLow,MathHigh)
 	local pennies = math.random(0,9)
@@ -46,7 +46,7 @@ AddEventHandler('vorp_loot', function(price,xp)
 		end
 	local monies = lootmath + pennyConv
 		if monies == 0.00 then
-			if debug == true then print("[LootCheck]\n Player found nothing in Pedestrians pockets.") end
+			if debug == true then print("[LootCheck]\n" .. playername .. " found nothing in Pedestrians pockets.") end
 			TriggerClientEvent("vorp:TipBottom", source, thiefFailtext, 3000)
 		else
 			if debug == true then print("" .. playername .. " steals $" .. monies .. " from a local Ped") end

@@ -1,6 +1,4 @@
 local looting = false
-local MathLow = Config.LootingLow
-local MathHigh = Config.LootingHigh
 local LootModifier = 10
 local debug = Config.debug
 local thiefchance = Config.PickpocketChance

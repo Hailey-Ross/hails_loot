@@ -1,6 +1,6 @@
 <0.1.1>
 - Moving ALL secure payment functions to server.lua
-- Thieving Chance Added
+- Thieving Chance Added to Config
 - More Verbose output with Debugging enabled
 - Minor Code cleanup
 <0.1.0>

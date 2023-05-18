@@ -29,7 +29,7 @@ AddEventHandler('vorp_loot', function(price,xp)
 	local fortyfours = 0.414444144 * playerCamRot.z + playerPingSeed
 	local gameTimerSeed = GetGameTimer()
 	local preSeeding = playerCamRot.x * gameTimerSeed * fortyfours
-	local RandomSeed = preSeeding * specialSauce
+	local RandomSeed = preSeeding * specialSauce / 2
 	if debug == true then print("[LootCheck]\n Seed Generated: " .. RandomSeed .. "\n[Modifiers applied]\n Ping: " .. playerPingSeed .. "\n Special Mod: " .. specialSauce .. "\n Special Mod Deux: " .. fortyfours .. "\n Camera Rotation Z: " .. playerCamRot.z .. "\n Camera Rotation X: " .. playerCamRot.x .. "\n GameTimer: " .. gameTimerSeed .. " ") end
 	math.randomseed(RandomSeed)
 	local loot = math.random(MathLow,MathHigh)

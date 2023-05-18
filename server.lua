@@ -61,7 +61,6 @@ AddEventHandler("Log", function( category, action, colordec)
 end)
 
 function Discord( title, description, color)
-	--local webhook = "https://discord.com/api/webhooks/942149281161285673/kdex3NiFjjKaZox_sqrLnARquB5ThKmIT6S583YSpd5EuJFVagGbcY4KV54tKNugd_me"
 	local webook = Config.discordWebhook
 	local logs = {
 		{

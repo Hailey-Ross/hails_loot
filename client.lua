@@ -62,9 +62,6 @@ Citizen.CreateThread(function()
 									end
 								else
 									looting = false
-									--LootSeed = 0
-									--SeedMaths = 0
-									--SeedSysTime = 0
 								end
 							end
 						end

@@ -3,6 +3,7 @@ local MathLow = Config.LootingLow
 local MathHigh = Config.LootingHigh
 local LootModifier = 10
 local debug = Config.debug
+local thiefchance = Config.PickpocketChance
 
 Citizen.CreateThread(function()
     while true do
@@ -39,33 +40,17 @@ Citizen.CreateThread(function()
 										local fortyfours = 0.414444144 * SeedMaths
 										local SeedSysTime = GetSystemTime() * fortyfours
 										local LootSeed = GetGameTimer() + SeedSysTime * LootModifier - SeedMaths
-										if debug == true then print("Seed Generated: " .. LootSeed .. " | Seed Modifiers:  Var-1 [" .. SeedMaths .. "], Var-2 [" .. SeedSysTime .. "], Var-3 [" .. fortyfours .. "]") end
+										if debug == true then print("[Thieving Check]\n Seed Generated: " .. LootSeed .. "\n Seed Modifiers:\n Var-1 [" .. SeedMaths .. "]\n Var-2 [" .. SeedSysTime .. "]\n Var-3 [" .. fortyfours .. "]") end
 										math.randomseed(LootSeed)
-										local loot = math.random(MathLow,MathHigh)
-										local pennies = math.random(0,9)
-										if pennies == 0 then
-											pennyConv = 0.00
-										else
-											pennyConv = pennies / 100
-										end
-										if loot == 0 then
-											lootmath = 0.00
-										else
-											lootmath = loot / LootModifier
-										end
-										local lootpay = lootmath + pennyConv
+										local thieving = math.random(0,100)
 										local loot_xp = math.random(10,1000)
 										local loot_xp_pay= loot_xp / 100
-										if lootpay == 0 then
-											if debug == true then print("Player found nothing in Pedestrians pockets.") end
-											TriggerEvent("vorp:TipBottom", 'You search their pockets but find nothing of value..', 3000)
-										elseif lootpay < 0 then
-											print("ERROR LOOTPAY WAS NEGATIVE NUMBER - REPORT THIS ERROR TO DEV | Lootpay: " .. lootpay)
-											TriggerEvent("vorp:TipBottom", 'You attempt to search their pockets but find they have been sewn shut', 3000)
+										if thieving <= thiefchance then
+											if debug == true then print("[Thieving Check]\n Passed with Result: " .. thieving) end
+											TriggerServerEvent('vorp_loot', thieving, loot_xp_pay)
 										else
-											TriggerServerEvent('vorp_loot', lootpay, loot_xp_pay)
-											if debug == true then print("Player steals $" .. lootpay .. " from a local Ped") end
-											TriggerEvent("vorp:TipBottom", 'You steal $' .. lootpay, 3000)
+											if debug == true then print("[Thieving Check]\n Failed with Result: " .. thieving) end
+											TriggerEvent("vorp:TipBottom", 'You search their pockets but find nothing of value..', 3000)
 											Wait(400)
 										end
 									else

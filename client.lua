@@ -38,7 +38,7 @@ Citizen.CreateThread(function()
 										local SeedMaths = KeyHeldTime * LootModifier
 										local fortyfours = 0.414444144 * SeedMaths
 										local SeedSysTime = GetSystemTime() * fortyfours
-										local LootSeed = GetGameTimer() + SeedSysTime * LootModifier - SeedMaths
+										local LootSeed = GetGameTimer() + SeedSysTime / LootModifier - SeedMaths
 										if debug == true then print("[Thieving Check]\n Seed Generated: " .. LootSeed .. "\n Seed Modifiers:\n Var-1 [" .. SeedMaths .. "]\n Var-2 [" .. SeedSysTime .. "]\n Var-3 [" .. fortyfours .. "]") end
 										math.randomseed(LootSeed)
 										local thieving = math.random(1,100)

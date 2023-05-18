@@ -9,6 +9,8 @@ local MathLow = Config.LootingLow
 local MathHigh = Config.LootingHigh
 local LootModifier = 10
 local debug = Config.debug
+local thiefFailtext = Config.searchFailtext
+local searchFindtext = Config.searchFindtext
 
 RegisterServerEvent('vorp_loot')
 AddEventHandler('vorp_loot', function(price,xp)
@@ -45,11 +47,11 @@ AddEventHandler('vorp_loot', function(price,xp)
 	local monies = lootmath + pennyConv
 		if monies == 0.00 then
 			if debug == true then print("[LootCheck]\n Player found nothing in Pedestrians pockets.") end
-			TriggerClientEvent("vorp:TipBottom", source, 'You search their pockets but find nothing of value..', 3000)
+			TriggerClientEvent("vorp:TipBottom", source, thiefFailtext, 3000)
 		else
 			if debug == true then print("Player steals $" .. monies .. " from a local Ped") end
 			Character.addCurrency(0, monies)
-			TriggerClientEvent("vorp:TipBottom", source, 'You steal $' .. monies, 3000)
+			TriggerClientEvent("vorp:TipBottom", source, '' ..searchFindtext .. ' $' .. monies, 3000)
 			Wait(400)
 		end	
 end)

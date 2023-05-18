@@ -50,7 +50,7 @@ Citizen.CreateThread(function()
 											TriggerServerEvent('vorp_loot', thieving, loot_xp_pay)
 										else
 											if debug == true then print("[Thieving Check]\n Failed with Result: " .. thieving) end
-											TriggerEvent("vorp:TipBottom", 'You search their pockets but find nothing of value..', 3000)
+											TriggerEvent("vorp:TipBottom", 'You find this person has their pockets sewn shut..', 3000)
 											Wait(400)
 										end
 									else

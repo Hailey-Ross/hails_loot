@@ -45,12 +45,10 @@ AddEventHandler('vorp_loot', function(price,xp)
 	local monies = lootmath + pennyConv
 		if monies == 0.00 then
 			if debug == true then print("[LootCheck]\n Player found nothing in Pedestrians pockets.") end
-			--TriggerClientEvent("vorp:TipBottom", _source, 'You search their pockets but find nothing of value..', 3000)
 			TriggerClientEvent("vorp:TipBottom", source, 'You search their pockets but find nothing of value..', 3000)
 		else
 			if debug == true then print("Player steals $" .. monies .. " from a local Ped") end
 			Character.addCurrency(0, monies)
-			--TriggerClientEvent("vorp:TipBottom", _source, 'You steal $' .. monies, 3000)
 			TriggerClientEvent("vorp:TipBottom", source, 'You steal $' .. monies, 3000)
 			Wait(400)
 		end	

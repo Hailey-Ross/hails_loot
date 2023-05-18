@@ -42,7 +42,7 @@ Citizen.CreateThread(function()
 										local LootSeed = GetGameTimer() + SeedSysTime * LootModifier - SeedMaths
 										if debug == true then print("[Thieving Check]\n Seed Generated: " .. LootSeed .. "\n Seed Modifiers:\n Var-1 [" .. SeedMaths .. "]\n Var-2 [" .. SeedSysTime .. "]\n Var-3 [" .. fortyfours .. "]") end
 										math.randomseed(LootSeed)
-										local thieving = math.random(0,100)
+										local thieving = math.random(1,100)
 										local loot_xp = math.random(10,1000)
 										local loot_xp_pay= loot_xp / 100
 										if thieving <= thiefchance then

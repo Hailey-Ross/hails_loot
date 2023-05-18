@@ -1,3 +1,8 @@
+<0.1.1>
+- Moving ALL secure payment functions to server.lua
+- Thieving Chance Added
+- More Verbose output with Debugging enabled
+- Minor Code cleanup
 <0.1.0>
 - Initial Release Version
 - General Code Cleanup & Useability improvements

@@ -19,7 +19,7 @@ server_scripts {
 	"server.lua"
 }
 
-version '0.1.0'
+version '0.1.1'
 vorp_checker 'yes'
 vorp_name '^4Resource version Check^3'
 vorp_github 'https://github.com/Hailey-Ross/hails_loot'

@@ -5,6 +5,6 @@ Config = {}
     Config.discordToggle = false  -- True enables Discord Webhooks | False to Disable
     Config.discordWebhook = ""    -- Paste your Discord Webhook here, Previous option must be enabled to work. 
 
-    Config.PickpocketChance = 55  -- Chance from 0 to 100 that Pickpocketing will Succeed. Default of 55 means there is a 56% chance out of 100 that the player will succeed.
-    Config.LootingLow = 0         -- Set for low end of change dropped, usually 0 or 1
-    Config.LootingHigh = 10       -- Set for high end of change dropped, usually 10 for $1.00 max dropped by a Ped
+    Config.PickpocketChance = 55  -- Chance from 1 to 100 that Pickpocketing will Succeed. Default of 55 means there is a 55% chance out of 100 that the player will succeed.
+    Config.LootingLow = 0         -- Set for low end of change dropped, Default 0 or 1
+    Config.LootingHigh = 10       -- Set for high end of change dropped, Default 10 for $1.00 max dropped by a Ped

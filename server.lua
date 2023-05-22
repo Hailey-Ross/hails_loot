@@ -6,6 +6,7 @@ VorpInv = exports.vorp_inventory:vorp_inventoryApi()
 
 local discordToggle = Config.discordToggle
 local webook = Config.discordWebhook
+local onesyncCompat = Config.onesync
 local MathLow = Config.LootingLow
 local MathHigh = Config.LootingHigh
 local LootModifier = 10
@@ -23,17 +24,14 @@ AddEventHandler('vorp_loot', function(price,xp)
 	local playerIdentifier = GetPlayerIdentifier(_source)
 	local playerIP = GetPlayerEndpoint(_source)
 	local playerInfo = "Player: ".. GetPlayerName(_source) .."\nCharacter: ".. playername .."\nIdentifier(s): ".. playerIdentifier .."\nIP: ".. playerIP
-	local webhookTitle = "Hails.LootWatch"
-	if Config.webhookTitle then webhookTitle = Config.webhookTitle end
-	local text = "looted local for " .. monies
-	local message = playerInfo .. " Msg: ".. text
 	local playerCamRot = GetPlayerCameraRotation(source)
 	local playerPingSeed = GetPlayerPing(source)
 	local specialSauce = playerPingSeed / playerCamRot.x
 	local fortyfours = 0.414444144 * playerCamRot.z + playerPingSeed
 	local gameTimerSeed = GetGameTimer()
 	local preSeeding = playerCamRot.x * gameTimerSeed * fortyfours
-	local RandomSeed = preSeeding * specialSauce / 2
+	local RandomSeed = nil
+	if onesyncCompat then RandomSeed = preSeeding * specialSauce / 2 else RandomSeed = gameTimerSeed * _price * playerPingSeed * 0.414444144 end
 	if debug == true then print("[LootCheck]\n Seed Generated: " .. RandomSeed .. "\n[Modifiers applied]\n Ping: " .. playerPingSeed .. "\n Special Mod: " .. specialSauce .. "\n Special Mod Deux: " .. fortyfours .. "\n Camera Rotation Z: " .. playerCamRot.z .. "\n Camera Rotation X: " .. playerCamRot.x .. "\n GameTimer: " .. gameTimerSeed .. " ") end
 	math.randomseed(RandomSeed)
 	local loot = math.random(MathLow,MathHigh)
@@ -63,5 +61,9 @@ AddEventHandler('vorp_loot', function(price,xp)
 end)
 
 function Discord( title, description, color)
+	local webhookTitle = "Hails.LootWatch"
+	if Config.webhookTitle then webhookTitle = Config.webhookTitle end
+	local text = Config.webhookText .. monies
+	local message = playerInfo .. " Msg: ".. text
 	VorpCore.AddWebhook(title, webhook, description, color)
 end

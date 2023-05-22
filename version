@@ -1,3 +1,5 @@
+<0.1.2>
+- WORK IN PROGRESS
 <0.1.1>
 - Moved ALL secure payment functions to server.lua
 - Thieving Chance Added to Config

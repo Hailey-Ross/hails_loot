@@ -1,11 +1,11 @@
 <0.1.2>
-- Adjustments to RNG Seeding
-- Optimizations/Cleanup to codebase
-- Onesync Compatibility config option added
-- Verbose Debugging config option added
-- Rudimentary Discord Webhook Support fixed
-- Additional Misc. config options added
-- Notifications using VorpCore API Updated
+- Major adjustments to RNG Seeding
+- Major Optimizations/Cleanup to codebase
+- ADDED Onesync Compatibility config option
+- ADDED Verbose Debugging config option
+- Fixed rudimentary Discord Webhook Support
+- Various additional misc. config options added
+- Notifications now using updated VorpCore API
 - REPLACE ALL FILES FOR THIS UPDATE
 <0.1.1>
 - Moved ALL secure payment functions to server.lua

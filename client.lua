@@ -45,10 +45,10 @@ Citizen.CreateThread(function()
 										local loot_xp = math.random(10,1000)
 										local loot_xp_pay= loot_xp / 100
 										if thieving <= thiefchance then
-											if debug == true then print("[Thieving Check]\n Passed with Result: " .. thieving) end
+											if debug == true then print("[Thieving Check]\n Passed with Result: " .. thieving .. " (1 - 100)") end
 											TriggerServerEvent('vorp_loot', thieving, loot_xp_pay)
 										else
-											if debug == true then print("[Thieving Check]\n Failed with Result: " .. thieving) end
+											if debug == true then print("[Thieving Check]\n Failed with Result: " .. thieving .. " (1 - 100)") end
 											TriggerEvent("vorp:TipBottom", thievingFailure, 3000)
 											Wait(400)
 										end

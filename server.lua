@@ -5,12 +5,14 @@ end)
 VorpInv = exports.vorp_inventory:vorp_inventoryApi()
 
 local discordToggle = Config.discordToggle
+local webook = Config.discordWebhook
 local MathLow = Config.LootingLow
 local MathHigh = Config.LootingHigh
 local LootModifier = 10
 local debug = Config.debug
 local thiefFailtext = Config.searchFailtext
 local searchFindtext = Config.searchFindtext
+local monies = 0
 
 RegisterServerEvent('vorp_loot')
 AddEventHandler('vorp_loot', function(price,xp)
@@ -18,11 +20,13 @@ AddEventHandler('vorp_loot', function(price,xp)
     local Character = VorpCore.getUser(_source).getUsedCharacter
     local _price = tonumber(price)
     local playername = Character.firstname.. ' ' ..Character.lastname
-	local steamhex = GetPlayerIdentifier(_source)
-    local text = "looted local for ".._price
-	local message = "Player ID: "..GetPlayerName(_source).."\nCharacter: "..playername.."\nSteam: "..steamhex.."\nIP: ".." Msg: "..text
-	local monies = 0
-	if discordToggle then Discord("npc lootwatch", message, 16711680) end
+	local playerIdentifier = GetPlayerIdentifier(_source)
+	local playerIP = GetPlayerEndpoint(_source)
+	local playerInfo = "Player: ".. GetPlayerName(_source) .."\nCharacter: ".. playername .."\nIdentifier(s): ".. playerIdentifier .."\nIP: ".. playerIP
+	local webhookTitle = "Hails.LootWatch"
+	if Config.webhookTitle then webhookTitle = Config.webhookTitle end
+	local text = "looted local for " .. monies
+	local message = playerInfo .. " Msg: ".. text
 	local playerCamRot = GetPlayerCameraRotation(source)
 	local playerPingSeed = GetPlayerPing(source)
 	local specialSauce = playerPingSeed / playerCamRot.x
@@ -46,30 +50,18 @@ AddEventHandler('vorp_loot', function(price,xp)
 		end
 	local monies = lootmath + pennyConv
 		if monies == 0.00 then
-			if debug == true then print("[LootCheck]\n" .. playername .. " found nothing in Pedestrians pockets.") end
+			if debug == true then print("[LootCheck]\n" .. playername .. " failed to find money, value " .. monies) end
+			if discordToggle then Discord(webhookTitle, message, 16711680) end
 			TriggerClientEvent("vorp:TipBottom", source, thiefFailtext, 3000)
 		else
 			if debug == true then print("" .. playername .. " steals $" .. monies .. " from a local Ped") end
+			if discordToggle then Discord(webhookTitle, message, 16711680) end
 			Character.addCurrency(0, monies)
 			TriggerClientEvent("vorp:TipBottom", source, '' ..searchFindtext .. ' $' .. monies, 3000)
 			Wait(400)
 		end	
 end)
 
-
-RegisterServerEvent("Log")
-AddEventHandler("Log", function( category, action, colordec)
-	Discord( category, action, colordec)
-end)
-
 function Discord( title, description, color)
-	local webook = Config.discordWebhook
-	local logs = {
-		{
-			["color"] = color,
-			["title"] = title,
-			["description"] = description,
-		}
-	}
-	PerformHttpRequest(webhook, function(err, text, headers) end, 'POST', json.encode({embeds = logs}), { ['Content-Type'] = 'application/json' })
+	VorpCore.AddWebhook(title, webhook, description, color)
 end

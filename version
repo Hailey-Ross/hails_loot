@@ -5,6 +5,7 @@
 - Verbose Debugging config option added
 - Rudimentary Discord Webhook Support fixed
 - Additional Misc. config options added
+- Notifications using VorpCore API Updated
 - REPLACE ALL FILES FOR THIS UPDATE
 <0.1.1>
 - Moved ALL secure payment functions to server.lua

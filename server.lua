@@ -8,6 +8,7 @@ local onesyncCompat = Config.onesync
 local MathLow = Config.LootingLow
 local MathHigh = Config.LootingHigh
 local debug = Config.debug
+local vdebug = Config.verboseDebug
 local thiefFailtext = Config.searchFailtext
 local searchFindtext = Config.searchFindtext
 local monies = 0
@@ -33,7 +34,8 @@ AddEventHandler('vorp_loot', function(price,xp)
 	local preSeeding = playerCamRot.x * gameTimerSeed * fortyfours
 	local RandomSeed = nil
 	if onesyncCompat then RandomSeed = preSeeding * specialSauce / 2 else RandomSeed = gameTimerSeed * _price * playerPingSeed * 0.414444144 end
-	if debug == true then print("[LootCheck]\n Seed Generated: " .. RandomSeed .. "\n[Modifiers applied]\n Ping: " .. playerPingSeed .. "\n Special Mod: " .. specialSauce .. "\n Special Mod Deux: " .. fortyfours .. "\n Camera Rotation Z: " .. playerCamRot.z .. "\n Camera Rotation X: " .. playerCamRot.x .. "\n GameTimer: " .. gameTimerSeed .. " ") end
+	if debug and not vdebug then print("[LootCheck]\n Seed Generated: " .. RandomSeed) end
+	if vdebug then print("[LootCheck]\n Seed Generated: " .. RandomSeed .. "\n[Modifiers applied]\n Ping: " .. playerPingSeed .. "\n Special Mod: " .. specialSauce .. "\n Special Mod Deux: " .. fortyfours .. "\n Camera Rotation Z: " .. playerCamRot.z .. "\n Camera Rotation X: " .. playerCamRot.x .. "\n GameTimer: " .. gameTimerSeed .. " ") end
 	math.randomseed(RandomSeed)
 	local thiefChance = math.random(1,100)
 	local loot = math.random(MathLow,MathHigh)
@@ -63,30 +65,30 @@ AddEventHandler('vorp_loot', function(price,xp)
 		if Config.webhookAvatar then webhookAvatar = Config.webhookAvatar end
 		local monies = lootmath + pennyConv
 		if monies == 0.00 then
-			if debug == true then print("[LootCheck]\n" .. playername .. " failed to find money, value " .. monies) end
+			if debug then print("[LootCheck]\n" .. playername .. " failed to find money, value " .. monies) end
 			if discordToggle then 
 				local description = playerInfo .. "\nMsg: failed to find money on a local Ped"
 				VorpCore.AddWebhook(webhooktTitle, webhook, description, webhookColor, webhookName, webhookLogo, webhookFooterLogo, webhookAvatar)
-				if debug == true then print("Webhook:\nTitle: " .. webhookTitle .. "\nDescription: " .. description .. "\nWebhook URL: \n" .. webhook) end
+				if vdebug then print("Webhook:\nTitle: " .. webhookTitle .. "\nDescription: " .. description .. "\nWebhook URL: \n" .. webhook) end
 			end
 			TriggerClientEvent("vorp:TipBottom", source, thiefFailtext, 3000)
 		else
 			Character.addCurrency(0, monies)
 			TriggerClientEvent("vorp:TipBottom", source, '' .. searchFindtext .. ' $' .. monies, 3000)
-			if debug == true then print("" .. playername .. " steals $" .. monies .. " from a local Ped") end
+			if debug then print("" .. playername .. " steals $" .. monies .. " from a local Ped") end
 			if discordToggle then 
 				local description = message .. "$" .. monies
 				VorpCore.AddWebhook(webhookTitle, webhook, description, color, name, logo, footerlogo, avatar)
-				if debug == true then print("Webhook:\nTitle: " .. webhookTitle .. "\nDescription: " .. description .. "\nWebhook URL: \n" .. webhook) end
+				if vdebug then print("Webhook:\nTitle: " .. webhookTitle .. "\nDescription: " .. description .. "\nWebhook URL: \n" .. webhook) end
 			end
 			Wait(400)
 		end
 	else
-		if debug == true then print("[LootCheck]\n" .. playername .. " failed thieving check, value " .. thiefChance .. " > " .. pickpocketChance) end
+		if debug then print("[LootCheck]\n" .. playername .. " failed thieving check, value " .. thiefChance .. " > " .. pickpocketChance) end
 		if discordToggle then 
 			local description = playerInfo .. "\nMsg: failed Thieving Check (" .. thiefChance .. "/" .. pickpocketChance .. ")"
 			VorpCore.AddWebhook(webhookTitle, webhook, description, webhookColor, webhookName, webhookLogo, webhookFooterLogo, webhookAvatar)
-			if debug == true then print("Webhook:\nTitle: " .. webhookTitle .. "\nDescription: " .. description .. "\nWebhook URL: \n" .. webhook) end
+			if vdebug then print("Webhook:\nTitle: " .. webhookTitle .. "\nDescription: " .. description .. "\nWebhook URL: \n" .. webhook) end
 		end
 		TriggerClientEvent("vorp:TipBottom", source, thiefFailtext, 3000)
 	end

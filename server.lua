@@ -72,10 +72,10 @@ AddEventHandler('vorp_loot', function(price,xp)
 				VorpCore.AddWebhook(webhooktTitle, webhook, description, webhookColor, webhookName, webhookLogo, webhookFooterLogo, webhookAvatar)
 				if vdebug then print("Webhook:\nTitle: " .. webhookTitle .. "\nDescription: " .. description .. "\nWebhook URL: \n" .. webhook) end
 			end
-			TriggerClientEvent("vorp:TipBottom", source, thiefFailtext, notifyTime)
+			VorpCore.NotifyBottomRight(source, thiefFailtext, notifyTime)
 		else
 			Character.addCurrency(0, monies)
-			TriggerClientEvent("vorp:TipBottom", source, '' .. searchFindtext .. ' $' .. monies, notifyTime)
+			VorpCore.NotifyBottomRight(source, '' .. searchFindtext .. ' $' .. monies, notifyTime)
 			if debug then print("" .. playername .. " steals $" .. monies .. " from a local Ped") end
 			if discordToggle then 
 				local description = message .. "$" .. monies
@@ -86,11 +86,6 @@ AddEventHandler('vorp_loot', function(price,xp)
 		end
 	else
 		if debug then print("[LootCheck]\n" .. playername .. " failed thieving check, value " .. thiefChance .. " > " .. pickpocketChance) end
-		if discordToggle then 
-			local description = playerInfo .. "\nMsg: failed Thieving Check (" .. thiefChance .. "/" .. pickpocketChance .. ")"
-			VorpCore.AddWebhook(webhookTitle, webhook, description, webhookColor, webhookName, webhookLogo, webhookFooterLogo, webhookAvatar)
-			if vdebug then print("Webhook:\nTitle: " .. webhookTitle .. "\nDescription: " .. description .. "\nWebhook URL: \n" .. webhook) end
-		end
-		TriggerClientEvent("vorp:TipBottom", source, thiefFailtext, notifyTime)
+		VorpCore.NotifyBottomRight(source, "" .. thiefFailtext, notifyTime)
 	end
 end)

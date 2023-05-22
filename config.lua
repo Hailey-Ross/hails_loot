@@ -10,7 +10,7 @@ Config = {}
     Config.LootingHigh = 10       -- Set for high end of change dropped, Default 10 for $1.00 max dropped by a Ped
 
     Config.notifyLength = 3       -- Time in Seconds for the notification to appear
-    Config.butterfingers = 'Your fingers slip and you watch as the coins disappear into the dirt at your feet..'  -- Failure text if Loot Prompt isn't held to full length
+    Config.butterfingers = 'You watch as your fingers slip and the coins disappear into the dirt at your feet..'  -- Failure text if Loot Prompt isn't held to full length
     Config.searchFailtext = 'You search their pockets, however you find nothing of value..'
     Config.searchFindtext = 'You steal'
 

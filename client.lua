@@ -48,7 +48,6 @@ Citizen.CreateThread(function()
 										TriggerServerEvent('vorp_loot', thieving, loot_xp_pay)
 										KeyHeldTime = 0
 									else
-										VORPcore.NotifyBottomRight(notifyFingerslip, notifyTime)
 										looting = false
 										LootSeed = 0
 										SeedMaths = 0
@@ -56,6 +55,7 @@ Citizen.CreateThread(function()
 									end
 								else
 									looting = false
+									VORPcore.NotifyBottomRight(notifyFingerslip, notifyTime)
 								end
 							end
 						end

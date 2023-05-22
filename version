@@ -1,6 +1,6 @@
 <0.1.2>
 - Adjustments to RNG Seeding
-- Optimizations to general codebase
+- Optimizations/Cleanup to codebase
 - Onesync Compatibility config option added
 - Verbose Debugging config option added
 - Rudimentary Discord Webhook Support fixed

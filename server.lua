@@ -11,9 +11,10 @@ local debug = Config.debug
 local vdebug = Config.verboseDebug
 local thiefFailtext = Config.searchFailtext
 local searchFindtext = Config.searchFindtext
-local monies = 0
-local LootModifier = 10
 local pickpocketChance = Config.PickpocketChance
+local notifyTime = Config.notifyLength * 1000
+local LootModifier = 10
+local monies = 0
 
 RegisterServerEvent('vorp_loot')
 AddEventHandler('vorp_loot', function(price,xp)
@@ -54,7 +55,7 @@ AddEventHandler('vorp_loot', function(price,xp)
 		local discordToggle = Config.discordToggle
 		local webhook = Config.discordWebhook
 		local webhookName = GetCurrentResourceName()
-		local webhookColor = "12602111"
+		local webhookColor = 12602111
 		local webhookAvatar = "http://assets.mobogaming.com/i/dev-sphere96x96.png"
 		local webhookLogo = Config.webhookLogo
 		local webhookFooterLogo = Config.hookFootLogo
@@ -71,10 +72,10 @@ AddEventHandler('vorp_loot', function(price,xp)
 				VorpCore.AddWebhook(webhooktTitle, webhook, description, webhookColor, webhookName, webhookLogo, webhookFooterLogo, webhookAvatar)
 				if vdebug then print("Webhook:\nTitle: " .. webhookTitle .. "\nDescription: " .. description .. "\nWebhook URL: \n" .. webhook) end
 			end
-			TriggerClientEvent("vorp:TipBottom", source, thiefFailtext, 3000)
+			TriggerClientEvent("vorp:TipBottom", source, thiefFailtext, notifyTime)
 		else
 			Character.addCurrency(0, monies)
-			TriggerClientEvent("vorp:TipBottom", source, '' .. searchFindtext .. ' $' .. monies, 3000)
+			TriggerClientEvent("vorp:TipBottom", source, '' .. searchFindtext .. ' $' .. monies, notifyTime)
 			if debug then print("" .. playername .. " steals $" .. monies .. " from a local Ped") end
 			if discordToggle then 
 				local description = message .. "$" .. monies
@@ -90,6 +91,6 @@ AddEventHandler('vorp_loot', function(price,xp)
 			VorpCore.AddWebhook(webhookTitle, webhook, description, webhookColor, webhookName, webhookLogo, webhookFooterLogo, webhookAvatar)
 			if vdebug then print("Webhook:\nTitle: " .. webhookTitle .. "\nDescription: " .. description .. "\nWebhook URL: \n" .. webhook) end
 		end
-		TriggerClientEvent("vorp:TipBottom", source, thiefFailtext, 3000)
+		TriggerClientEvent("vorp:TipBottom", source, thiefFailtext, notifyTime)
 	end
 end)

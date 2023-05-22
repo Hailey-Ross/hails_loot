@@ -1,5 +1,9 @@
 <0.1.2>
-- WORK IN PROGRESS
+- Adjustments to RNG Seeding
+- Optimizations to general codebase
+- Onesync Compatibility config option added
+- Verbose Debugging config option added
+- Rudimentary Discord Webhook Support fixed
 <0.1.1>
 - Moved ALL secure payment functions to server.lua
 - Thieving Chance Added to Config

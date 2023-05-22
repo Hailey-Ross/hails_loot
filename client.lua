@@ -1,8 +1,15 @@
+local VORPcore = {}
+
+TriggerEvent("getCore", function(core)
+    VORPcore = core 
+end)
+
 local looting = false
 local LootModifier = 10
 local debug = Config.debug
-local thiefchance = Config.PickpocketChance
-local thievingFailure = Config.thiefFailtext
+local vdebug = Config.verboseDebug
+local notifyFingerslip = Config.butterfingers
+local notifyTime = Config.notifyLength * 1000
 
 Citizen.CreateThread(function()
     while true do
@@ -35,21 +42,17 @@ Citizen.CreateThread(function()
 									Wait(500)
 									local lootedcheck = Citizen.InvokeNative(0x8DE41E9902E85756, entityHit)
 									if lootedcheck then
-										local SeedMaths = KeyHeldTime * LootModifier
-										local fortyfours = 0.414444144 * SeedMaths
-										local SeedSysTime = GetSystemTime() * fortyfours
-										local LootSeed = GetGameTimer() + SeedSysTime / LootModifier - SeedMaths
-										math.randomseed(LootSeed)
-										local thieving = math.random(1,100)
-										local loot_xp = math.random(10,1000)
-										local loot_xp_pay= loot_xp / 100
+										local thieving = 1
+										local loot_xp = 0 --math.random(10,1000)
+										local loot_xp_pay = 0 --loot_xp / 100
 										TriggerServerEvent('vorp_loot', thieving, loot_xp_pay)
+										KeyHeldTime = 0
 									else
+										VORPcore.NotifyBottomRight(notifyFingerslip, notifyTime)
 										looting = false
 										LootSeed = 0
 										SeedMaths = 0
 										SeedSysTime = 0
-										if debug == true then print("Failed Prompt OR Ped already looted") end
 									end
 								else
 									looting = false

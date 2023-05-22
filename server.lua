@@ -4,13 +4,17 @@ end)
 
 VorpInv = exports.vorp_inventory:vorp_inventoryApi()
 
-local discordToggle = Config.discordToggle
+local onesyncCompat = Config.onesync
 local MathLow = Config.LootingLow
 local MathHigh = Config.LootingHigh
-local LootModifier = 10
 local debug = Config.debug
+local vdebug = Config.verboseDebug
 local thiefFailtext = Config.searchFailtext
 local searchFindtext = Config.searchFindtext
+local pickpocketChance = Config.PickpocketChance
+local notifyTime = Config.notifyLength * 1000
+local LootModifier = 10
+local monies = 0
 
 RegisterServerEvent('vorp_loot')
 AddEventHandler('vorp_loot', function(price,xp)
@@ -18,22 +22,26 @@ AddEventHandler('vorp_loot', function(price,xp)
     local Character = VorpCore.getUser(_source).getUsedCharacter
     local _price = tonumber(price)
     local playername = Character.firstname.. ' ' ..Character.lastname
-	local steamhex = GetPlayerIdentifier(_source)
-    local text = "looted local for ".._price
-	local message = "Player ID: "..GetPlayerName(_source).."\nCharacter: "..playername.."\nSteam: "..steamhex.."\nIP: ".." Msg: "..text
-	local monies = 0
-	if discordToggle then Discord("npc lootwatch", message, 16711680) end
+	local playerIdentifier = GetPlayerIdentifier(_source)
+	local playerIP = GetPlayerEndpoint(_source)
+	local playerInfo = "Player: ".. GetPlayerName(_source) .."\nCharacter: ".. playername .."\nIdentifier(s): ".. playerIdentifier .."\nIP: ".. playerIP
+	local text = Config.webhookText 
+	local message = playerInfo .. "\nMsg: " .. text
 	local playerCamRot = GetPlayerCameraRotation(source)
 	local playerPingSeed = GetPlayerPing(source)
 	local specialSauce = playerPingSeed / playerCamRot.x
 	local fortyfours = 0.414444144 * playerCamRot.z + playerPingSeed
 	local gameTimerSeed = GetGameTimer()
 	local preSeeding = playerCamRot.x * gameTimerSeed * fortyfours
-	local RandomSeed = preSeeding * specialSauce / 2
-	if debug == true then print("[LootCheck]\n Seed Generated: " .. RandomSeed .. "\n[Modifiers applied]\n Ping: " .. playerPingSeed .. "\n Special Mod: " .. specialSauce .. "\n Special Mod Deux: " .. fortyfours .. "\n Camera Rotation Z: " .. playerCamRot.z .. "\n Camera Rotation X: " .. playerCamRot.x .. "\n GameTimer: " .. gameTimerSeed .. " ") end
+	local RandomSeed = nil
+	if onesyncCompat then RandomSeed = preSeeding * specialSauce / 2 else RandomSeed = gameTimerSeed * _price * playerPingSeed * 0.414444144 end
+	if debug and not vdebug then print("[LootCheck]\n Seed Generated: " .. RandomSeed) end
+	if vdebug then print("[LootCheck]\n Seed Generated: " .. RandomSeed .. "\n[Modifiers applied]\n Ping: " .. playerPingSeed .. "\n Special Mod: " .. specialSauce .. "\n Special Mod Deux: " .. fortyfours .. "\n Camera Rotation Z: " .. playerCamRot.z .. "\n Camera Rotation X: " .. playerCamRot.x .. "\n GameTimer: " .. gameTimerSeed .. " ") end
 	math.randomseed(RandomSeed)
+	local thiefChance = math.random(1,100)
 	local loot = math.random(MathLow,MathHigh)
 	local pennies = math.random(0,9)
+	if thiefChance <= pickpocketChance then
 		if pennies == 0 then
 			pennyConv = 0.00
 		else
@@ -44,32 +52,40 @@ AddEventHandler('vorp_loot', function(price,xp)
 		else
 			lootmath = loot / LootModifier
 		end
-	local monies = lootmath + pennyConv
+		local discordToggle = Config.discordToggle
+		local webhook = Config.discordWebhook
+		local webhookName = GetCurrentResourceName()
+		local webhookColor = 12602111
+		local webhookAvatar = "http://assets.mobogaming.com/i/dev-sphere96x96.png"
+		local webhookLogo = Config.webhookLogo
+		local webhookFooterLogo = Config.hookFootLogo
+		local webhookTitle = "Loot Watch"
+		if Config.webhookTitle then webhookTitle = Config.webhookTitle end
+		if Config.webhookName then webhookName = Config.webhookName end
+		if Config.webhookColor then webhookColor = Config.webhookColor end
+		if Config.webhookAvatar then webhookAvatar = Config.webhookAvatar end
+		local monies = lootmath + pennyConv
 		if monies == 0.00 then
-			if debug == true then print("[LootCheck]\n" .. playername .. " found nothing in Pedestrians pockets.") end
-			TriggerClientEvent("vorp:TipBottom", source, thiefFailtext, 3000)
+			if debug then print("[LootCheck]\n" .. playername .. " failed to find money, value " .. monies) end
+			if discordToggle then 
+				local description = playerInfo .. "\nMsg: failed to find money on a local Ped"
+				VorpCore.AddWebhook(webhooktTitle, webhook, description, webhookColor, webhookName, webhookLogo, webhookFooterLogo, webhookAvatar)
+				if vdebug then print("Webhook:\nTitle: " .. webhookTitle .. "\nDescription: " .. description .. "\nWebhook URL: \n" .. webhook) end
+			end
+			VorpCore.NotifyBottomRight(source, thiefFailtext, notifyTime)
 		else
-			if debug == true then print("" .. playername .. " steals $" .. monies .. " from a local Ped") end
 			Character.addCurrency(0, monies)
-			TriggerClientEvent("vorp:TipBottom", source, '' ..searchFindtext .. ' $' .. monies, 3000)
+			VorpCore.NotifyBottomRight(source, '' .. searchFindtext .. ' $' .. monies, notifyTime)
+			if debug then print("" .. playername .. " steals $" .. monies .. " from a local Ped") end
+			if discordToggle then 
+				local description = message .. "$" .. monies
+				VorpCore.AddWebhook(webhookTitle, webhook, description, color, name, logo, footerlogo, avatar)
+				if vdebug then print("Webhook:\nTitle: " .. webhookTitle .. "\nDescription: " .. description .. "\nWebhook URL: \n" .. webhook) end
+			end
 			Wait(400)
-		end	
+		end
+	else
+		if debug then print("[LootCheck]\n" .. playername .. " failed thieving check, value " .. thiefChance .. " > " .. pickpocketChance) end
+		VorpCore.NotifyBottomRight(source, "" .. thiefFailtext, notifyTime)
+	end
 end)
-
-
-RegisterServerEvent("Log")
-AddEventHandler("Log", function( category, action, colordec)
-	Discord( category, action, colordec)
-end)
-
-function Discord( title, description, color)
-	local webook = Config.discordWebhook
-	local logs = {
-		{
-			["color"] = color,
-			["title"] = title,
-			["description"] = description,
-		}
-	}
-	PerformHttpRequest(webhook, function(err, text, headers) end, 'POST', json.encode({embeds = logs}), { ['Content-Type'] = 'application/json' })
-end

@@ -4,6 +4,7 @@
 - Onesync Compatibility config option added
 - Verbose Debugging config option added
 - Rudimentary Discord Webhook Support fixed
+- Additional Misc. config options added
 <0.1.1>
 - Moved ALL secure payment functions to server.lua
 - Thieving Chance Added to Config

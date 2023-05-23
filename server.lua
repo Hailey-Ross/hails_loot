@@ -36,7 +36,7 @@ AddEventHandler('vorp_loot', function(price,xp)
 	local RandomSeed = nil
 	if onesyncCompat then RandomSeed = preSeeding * specialSauce / 2 else RandomSeed = gameTimerSeed * _price * playerPingSeed * 0.414444144 end
 	if debug and not vdebug then print("[LootCheck]\n Seed Generated: " .. RandomSeed) end
-	if vdebug then print("[LootCheck]\n Seed Generated: " .. RandomSeed .. "\n[Modifiers applied]\n Ping: " .. playerPingSeed .. "\n Special Mod: " .. specialSauce .. "\n Special Mod Deux: " .. fortyfours .. "\n Camera Rotation Z: " .. playerCamRot.z .. "\n Camera Rotation X: " .. playerCamRot.x .. "\n GameTimer: " .. gameTimerSeed .. " ") end
+	if vdebug and not onesyncCompat then print("[LootCheck]\n Seed Generated: " .. RandomSeed .. "\n[Modifiers applied]\n Ping: " .. playerPingSeed .. "\n Special Mod: " .. specialSauce .. "\n Special Mod Deux: " .. fortyfours .. "\n Camera Rotation Z: " .. playerCamRot.z .. "\n Camera Rotation X: " .. playerCamRot.x .. "\n GameTimer: " .. gameTimerSeed .. " ") end
 	math.randomseed(RandomSeed)
 	local thiefChance = math.random(1,100)
 	local loot = math.random(MathLow,MathHigh)

@@ -33,11 +33,11 @@ AddEventHandler('vorp_loot', function(price,xp)
 	local playerPingSeed = GetPlayerPing(source)
 	local specialSauce = playerPingSeed / playerCamRot.x
 	local fortyfours = 0.414444144 * playerCamRot.z + playerPingSeed
-	local oscompat_fortyfours = _price / 0.414444144 + _xp
+	local oscompat_fortyfours = _price * 0.414444144 + _xp
 	local gameTimerSeed = GetGameTimer()
 	local preSeeding = playerCamRot.x * gameTimerSeed * fortyfours
 	local RandomSeed = nil
-	if not onesyncCompat then RandomSeed = preSeeding * specialSauce / 2 else RandomSeed = gameTimerSeed * playerPingSeed * oscompat_fortyfours end
+	if not onesyncCompat then RandomSeed = preSeeding * specialSauce / 2 else RandomSeed = gameTimerSeed * playerPingSeed * oscompat_fortyfours / 2 end
 	if debug and not onesyncLogic then print("[LootCheck]\n Seed Generated: " .. RandomSeed) end
 	if vdebug and not onesyncCompat then print("[LootCheck]\n Seed Generated: " .. RandomSeed .. "\n[Modifiers applied]\n Ping: " .. playerPingSeed .. "\n Special Mod: " .. specialSauce .. "\n Special Mod Deux: " .. fortyfours .. "\n Camera Rotation Z: " .. playerCamRot.z .. "\n Camera Rotation X: " .. playerCamRot.x .. "\n GameTimer: " .. gameTimerSeed .. " ") end
 	if debug and onesyncCompat then print("[LootCheck]\n Seed Generated: " .. RandomSeed .. "\n GameTimer: " .. gameTimerSeed .. "\n Ping: " .. playerPingSeed .. "\n Mod: " .. oscompat_fortyfours ) end

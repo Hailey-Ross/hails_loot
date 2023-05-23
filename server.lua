@@ -13,12 +13,14 @@ local thiefFailtext = Config.searchFailtext
 local searchFindtext = Config.searchFindtext
 local pickpocketChance = Config.PickpocketChance
 local notifyTime = Config.notifyLength * 1000
+local onesyncLogic = vdebug or onesyncCompat 
 local LootModifier = 10
 local monies = 0
 
 RegisterServerEvent('vorp_loot')
 AddEventHandler('vorp_loot', function(price,xp)
     local _source = source
+	local _xp = xp
     local Character = VorpCore.getUser(_source).getUsedCharacter
     local _price = tonumber(price)
     local playername = Character.firstname.. ' ' ..Character.lastname
@@ -31,12 +33,14 @@ AddEventHandler('vorp_loot', function(price,xp)
 	local playerPingSeed = GetPlayerPing(source)
 	local specialSauce = playerPingSeed / playerCamRot.x
 	local fortyfours = 0.414444144 * playerCamRot.z + playerPingSeed
+	local oscompat_fortyfours = _price / 0.414444144 + _xp
 	local gameTimerSeed = GetGameTimer()
 	local preSeeding = playerCamRot.x * gameTimerSeed * fortyfours
 	local RandomSeed = nil
-	if onesyncCompat then RandomSeed = preSeeding * specialSauce / 2 else RandomSeed = gameTimerSeed * _price * playerPingSeed * 0.414444144 end
-	if debug and not vdebug then print("[LootCheck]\n Seed Generated: " .. RandomSeed) end
+	if not onesyncCompat then RandomSeed = preSeeding * specialSauce / 2 else RandomSeed = gameTimerSeed * playerPingSeed * oscompat_fortyfours end
+	if debug and not onesyncLogic then print("[LootCheck]\n Seed Generated: " .. RandomSeed) end
 	if vdebug and not onesyncCompat then print("[LootCheck]\n Seed Generated: " .. RandomSeed .. "\n[Modifiers applied]\n Ping: " .. playerPingSeed .. "\n Special Mod: " .. specialSauce .. "\n Special Mod Deux: " .. fortyfours .. "\n Camera Rotation Z: " .. playerCamRot.z .. "\n Camera Rotation X: " .. playerCamRot.x .. "\n GameTimer: " .. gameTimerSeed .. " ") end
+	if debug and onesyncCompat then print("[LootCheck]\n Seed Generated: " .. RandomSeed .. "\n GameTimer: " .. gameTimerSeed .. "\n Ping: " .. playerPingSeed .. "\n Mod: " .. oscompat_fortyfours ) end
 	math.randomseed(RandomSeed)
 	local thiefChance = math.random(1,100)
 	local loot = math.random(MathLow,MathHigh)

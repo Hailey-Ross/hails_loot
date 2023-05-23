@@ -42,9 +42,14 @@ Citizen.CreateThread(function()
 									Wait(500)
 									local lootedcheck = Citizen.InvokeNative(0x8DE41E9902E85756, entityHit)
 									if lootedcheck then
-										local thieving = 1
-										local loot_xp = 0 --math.random(10,1000)
-										local loot_xp_pay = 0 --loot_xp / 100
+										local fortyfours = 0.414444144
+										local gameTimerSeed = GetGameTimer()
+										local preSeeding = coords.z * fortyfours * KeyHeldTime
+										local RandomSeed = preSeeding * fortyfours + gameTimerSeed
+										math.randomseed(RandomSeed)
+										local thieving = math.random(4,24)
+										local loot_xp = math.random(444,44444)
+										local loot_xp_pay = loot_xp / 100
 										TriggerServerEvent('vorp_loot', thieving, loot_xp_pay)
 										KeyHeldTime = 0
 									else
